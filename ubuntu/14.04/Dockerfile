@@ -1,5 +1,5 @@
 FROM muccg/ubuntu14.04-base:latest
-MAINTAINER ccg <devops@ccg.murdoch.edu.au>
+MAINTAINER https://github.com/muccg/
 
 ENV DEBIAN_FRONTEND noninteractive
 
