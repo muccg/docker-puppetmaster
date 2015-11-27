@@ -12,8 +12,7 @@ defaults
 
 if [ "$1" = 'puppetmaster' ]; then
     echo "[RUN]: Launching puppet master"
-    /usr/bin/puppet master --confdir "/data" --dns_alt_names "${PUPPET_DNS_ALT_NAMES}" --no-daemonize --verbose 2>&1 | tee /data/puppetmaster.log
-    exit $?
+    exec /usr/bin/puppet master --confdir "/data" --dns_alt_names "${PUPPET_DNS_ALT_NAMES}" --no-daemonize --verbose
 fi
 
 echo "[RUN]: Builtin command not provided [puppetmaster]"
