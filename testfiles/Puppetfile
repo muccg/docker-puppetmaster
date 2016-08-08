@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#^syntax detection
+
+forge "https://forge.puppetlabs.com"
+
+mod "jfryman/nginx",
+  :git => "git://github.com/jfryman/puppet-nginx.git",
+  :ref => "v0.2.7"

@@ -1,25 +1,32 @@
-FROM muccg/ubuntu14.04-base:latest
+FROM buildpack-deps:jessie-curl
 MAINTAINER https://github.com/muccg/
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG ARG_PUPPET_VERSION
+ARG ARG_LIBRARIAN_PUPPET_VERSION
 
-RUN apt-get update && apt-get install -qy  --no-install-recommends \
-   wget \
-   && wget --no-check-certificate https://apt.puppetlabs.com/puppetlabs-release-trusty.deb \
-   && dpkg -i puppetlabs-release-trusty.deb \
-   && rm puppetlabs-release-trusty.deb
+ENV PUPPET_VERSION $ARG_PUPPET_VERSION
+ENV LIBRARIAN_PUPPET_VERSION $ARG_LIBRARIAN_PUPPET_VERSION
 
-RUN apt-get update && apt-get install -qy  --no-install-recommends \
-  puppetmaster \
-  ruby \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN env --unset=DEBIAN_FRONTEND
+RUN addgroup --gid 1000 puppet \
+    && adduser --disabled-password --home /data --no-create-home --system -q --uid 1000 --ingroup puppet puppet \
+    && mkdir /data \
+    && chown puppet:puppet /data
+
+RUN apt-get update && apt-get install -qy --no-install-recommends \
+    git \
+    ruby \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+RUN gem install puppet -v ${PUPPET_VERSION}
+RUN gem install librarian-puppet -v ${LIBRARIAN_PUPPET_VERSION}
 
 VOLUME /data
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
+USER puppet
 ENV HOME /data
 WORKDIR /data
 

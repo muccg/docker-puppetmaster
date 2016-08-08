@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  puppetmaster:
+    build:
+      context: ./
+      args:
+        ARG_PUPPET_VERSION: ${DOCKER_PUPPET_VERSION}
+        ARG_LIBRARIAN_PUPPET_VERSION: ${DOCKER_LIBRARIAN_PUPPET_VERSION}
+    image: muccg/puppetmaster
+    command: puppetmaster
+    volumes:
+      - ./data/master:/data
+
+  client:
+    image: muccg/puppet-base:ubuntu-15.10
+    hostname: client
+    command: -c "sleep 5 && puppet agent --confdir /data --server puppetmaster --environment nginx -t"
+    volumes:
+      - ./data/client:/data
+    links:
+      - puppetmaster
