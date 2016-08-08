@@ -12,11 +12,20 @@ services:
     volumes:
       - ./data/master:/data
 
-  client:
+  clienta:
     image: muccg/puppet-base:ubuntu-15.10
-    hostname: client
+    hostname: clientb
     command: -c "sleep 5 && puppet agent --confdir /data --server puppetmaster --environment nginx -t"
     volumes:
-      - ./data/client:/data
+      - ./data/clienta:/data
+    links:
+      - puppetmaster
+
+  clientb:
+    image: muccg/puppet-base:centos-7
+    hostname: clienta
+    command: -c "sleep 5 && puppet agent --confdir /data --server puppetmaster --environment nginx -t"
+    volumes:
+      - ./data/clientb:/data
     links:
       - puppetmaster
