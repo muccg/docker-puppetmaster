@@ -35,12 +35,11 @@ docker pull muccg/puppetmaster:latest || true
 docker-compose build puppetmaster
 docker inspect muccg/puppetmaster:latest
 
-docker tag muccg/puppetmaster:latest muccg/puppetmaster:latest-${DATE}
 docker tag muccg/puppetmaster:latest muccg/puppetmaster:${DOCKER_PUPPET_VERSION}
+docker tag muccg/puppetmaster:latest muccg/puppetmaster:${DOCKER_PUPPET_VERSION}-${DATE}
 
 if [ ${DOCKER_USE_HUB} = "1" ]; then
     ci_docker_login
-    docker push muccg/puppetmaster:latest
-    docker push muccg/puppetmaster:latest-${DATE}
     docker push muccg/puppetmaster:${DOCKER_PUPPET_VERSION}
+    docker push muccg/puppetmaster:${DOCKER_PUPPET_VERSION}-${DATE}
 fi
