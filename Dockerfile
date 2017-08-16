@@ -1,5 +1,5 @@
 FROM buildpack-deps:jessie-curl
-MAINTAINER https://github.com/muccg/
+LABEL maintainer "https://github.com/muccg/"
 
 ARG ARG_PUPPET_VERSION
 ARG ARG_LIBRARIAN_PUPPET_VERSION

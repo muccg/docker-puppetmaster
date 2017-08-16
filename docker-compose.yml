@@ -2,11 +2,6 @@ version: '2'
 services:
 
   puppetmaster:
-    build:
-      context: ./
-      args:
-        ARG_PUPPET_VERSION: ${DOCKER_PUPPET_VERSION}
-        ARG_LIBRARIAN_PUPPET_VERSION: ${DOCKER_LIBRARIAN_PUPPET_VERSION}
     image: muccg/puppetmaster
     command: puppetmaster
     volumes:

@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  dev:
+    build:
+      context: ./
+      args:
+        ARG_PUPPET_VERSION: ${DOCKER_PUPPET_VERSION}
+        ARG_LIBRARIAN_PUPPET_VERSION: ${DOCKER_LIBRARIAN_PUPPET_VERSION}
+    image: muccg/puppetmaster:${GIT_BRANCH}
+
+  prod:
+    build:
+      context: ./
+      args:
+        ARG_PUPPET_VERSION: ${DOCKER_PUPPET_VERSION}
+        ARG_LIBRARIAN_PUPPET_VERSION: ${DOCKER_LIBRARIAN_PUPPET_VERSION}
+    image: muccg/puppetmaster:${DOCKER_PUPPET_VERSION}
+
+  latest:
+    extends:
+      file: docker-compose-build.yml
+      service: prod
+    image: muccg/puppetmaster:latest
