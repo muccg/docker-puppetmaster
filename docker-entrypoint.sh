@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function defaults {
-    : ${PUPPET_DNS_ALT_NAMES="localhost,puppetmaster,master"}
+    : "${PUPPET_DNS_ALT_NAMES=localhost,puppetmaster,master}"
 
     echo "PUPPET_DNS_ALT_NAMES is ${PUPPET_DNS_ALT_NAMES}"
 
@@ -16,6 +16,6 @@ if [ "$1" = 'puppetmaster' ]; then
 fi
 
 echo "[RUN]: Builtin command not provided [puppetmaster]"
-echo "[RUN]: $@"
+echo "[RUN]: $*"
 
 exec "$@"
